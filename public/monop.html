@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Create Monopoly Codes</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script src="monop.js"></script>
+        <link rel="stylesheet" type="text/css" href="monop.css"/>
+    </head>
+    
+    <body onload="initPage();">
+        <div class="parent-container">
+            <div id="header-div">
+                <ul class="tab-bar">
+                    <li id="create" class="tab-selected" onclick="onCreate();">Create</li>
+                    <li id="add" class="tab-unselected" onclick="onAdd();">Add</li>
+                    <li id="status" class="tab-unselected" onclick="onStatus();">Status</li>
+                </ul>
+                
+                <div class="options-div">
+                    <input type="checkbox" name="read" checked onchange="applyRead();"/>
+                    <label for="read" class="checkboxtext">Read Codes</label>
+                </div>
+            </div>
+            
+            <div id="create-div">
+                <h1 id="title">Create Monopoly Codes</h1>
+                <form method="post" class="create-form" id="create-form" action="/ccreate">
+                    <label for="code">Code: </label>
+                    <input type="text" name="code" class="code-input" autocomplete="off" />
+                    <br><br>
+                    <button name="create" class="form-button" type="submit">Create</button>
+                </form>
+            </div>
+
+            <div id="add-div">
+                <h1 id="title">Add Monopoly Codes</h1>
+                <form method="post" class="add-form" id="add-form" action="/cadd">
+                    <label for="code">Code: </label>
+                    <input type="text" name="code" autocomplete="off" />
+                    <br><br>
+                    <button name="add" class="form-button" type="submit">Add</button>
+                </form>
+            </div>
+
+            <div id="status-div">
+                <h1 id="title">Monopoly Code Status</h1>
+                <table id="status-tbl" border="1">
+                    <tr>
+                        <th>Code</th>
+                        <th>Count</th>
+                    </tr>
+                    <tbody id="status-items">
+                    </tbody>
+                </table>
+                <br>
+            </div>
+            
+            <div id="results-div">
+                <h1 id="title">Results</h1>
+                <p id="results-text">This will show the results of add or create commands.</p>
+            </div>
+        </div>
+    </body>
+</html>

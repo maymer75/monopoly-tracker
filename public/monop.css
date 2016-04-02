@@ -1,0 +1,172 @@
+/* Colors:
+    Backround Green: #096534
+    Header Red: #e20e0e
+    Content Beige: beige
+*/
+
+
+/* ------ Basic Setup ------ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    background-color: #096534;
+    text-rendering: optimizeLegibility;
+}
+
+h1 {
+    color: #e20e0e;
+    text-align: center;
+    font-family: 'Helvetica', 'Arial', sans-serif;
+    font-weight: 600;
+    font-size: 32px;
+}
+
+label {
+    margin-left: 6px;
+}
+
+
+/* ------- Container -------- */
+
+.parent-container {
+    width: 600px;
+    height: 100%;
+    margin: auto;
+}
+
+
+/* ------- Header -------- */
+
+#header-div {
+    display: block;
+    margin-top: 4px;
+    margin-bottom: 2px;
+    height: 40px;
+}
+
+/* ------- Nav Bar -------- */
+
+.tab-bar {
+    float: left;
+    list-style: none;
+    margin-top: 4px;
+}
+
+.tab-bar li {
+    display: inline-block;
+    margin-left: 40px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.tab-selected {
+    cursor: default;
+    font-size: 24px;
+    color: #e20e0e;
+}
+
+.tab-unselected {
+    cursor: pointer;
+    font-size: 14px;
+    color: #fff;
+}
+
+/* ------- Options -------- */
+/* Options are to the right of the nav bar */
+.options-div {
+    display: block;
+    float: right;
+    margin-top: 4px;
+}
+
+.options-div input {
+    height: 24px;
+}
+
+/* Giving up on this, just accept default checkbox size (small as they are).
+   The reason is Safari browser (version I'm using) has buggy behavior where
+   the checkbox height is way larger than it should be any time the scale is
+   used (even 1.01 scale makes the height very large), and I don't care enough
+   to spend more time looking into work-arounds.
+input[type=checkbox]
+{
+    -ms-transform: scale(1.5);
+    -moz-transform: scale(1.5);
+    -webkit-transform: scale(1.01);
+    -o-transform: scale(1.5);
+    padding: 5px;
+    vertical-align: center;
+}
+*/
+
+.checkboxtext {
+    font-size: 110%;
+    color: #fff;
+    display: inline-block;
+    float: right;
+    margin-left: 5px;
+    margin-top: 2px;
+}
+
+
+/* ------- Content Divs -------- */
+
+#create-div,
+#add-div,
+#status-div,
+#results-div {
+    background-color: beige;
+    margin-left: 0px;
+}
+
+#create-div {
+    display: block;
+}
+
+#add-div {
+    display: none;
+}
+
+#status-div {
+    display: none;
+}
+
+#results-div {
+    display: none;
+}
+
+.create-form,
+.add-form {
+    margin-top: 20px;
+}
+
+.code-input {
+    width: 200px;
+    height: 24px;
+}
+
+.form-button {
+    width: 100px;
+    height: 24px;
+    margin-bottom: 15px;
+    margin-left: 48px;
+}
+
+#status-tbl {
+    width: 360px;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#status-items td {
+    text-align: center;
+}
