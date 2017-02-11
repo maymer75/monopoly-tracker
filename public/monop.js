@@ -8,7 +8,8 @@ var gCurPage = 'create';
 var gAudio = {};        // Audio objects, key is the associated letter from a code, or base filename for non-code audio
 var gPlaylist = [];     // Queue of audio files to play in sequence
 var gAudioFiles = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
-                    's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '$', 'question', 'ding1', 'dingx', 'winner' ];
+                    's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '$', 'question', 'ding1', 'dingx', 'winner',
+                    '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' ];
 
 var gReadCodes = true;
 
@@ -112,6 +113,7 @@ function initPage()
                 if (gReadCodes) {
                     playAudio(resp.code[0].toLowerCase());
                     playAudio(resp.code[1].toLowerCase());
+                    playAudio(resp.code[2].toLowerCase());
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
