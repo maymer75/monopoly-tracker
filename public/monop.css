@@ -170,3 +170,15 @@ input[type=checkbox]
 #status-items td {
     text-align: center;
 }
+
+.collected {
+    background-color:lightgreen;
+}
+
+.prize-even {
+    background-color:linen;
+}
+
+.prize-odd {
+    background-color:peachpuff;
+}

@@ -13,6 +13,41 @@ var gAudioFiles = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 
 
 var gReadCodes = true;
 
+// Use all uppercase letters in codes here to match how the database stores them.
+var gPrizeGroups = {
+    '8B': '$20,000 College Tuition',
+    '8C': '$35,000 Vehicle of Your Choice',
+    '8D': '$40,000 Home Makeover',
+    '8E': '$100,000 Cash or Luxury Car',
+    '8F': '$5,000 Cash',
+    '8G': '$5,000 Groceries',
+    '8H': '$1,500 Gas Grill<br>&amp; Groceries',
+    '8J': '$1,500 LED HD TV',
+    '8K': '$1,000 Cash',
+    '8L': '$1,000 Grocery<br>Gift Card',
+    '8M': '$1,000 Laptop<br>Computer',
+    '8N': '$500 Grocery<br>Gift Card',
+    '8P': '$300 Smart Watch',
+    '8Q': '$200 Family Picnic',
+    '8R': '$200 Cash',
+    '8S': '$100 Grocery<br>Gift Card',
+    '8T': '$100 Cash',
+    '8V': '$50 Grocery<br>Gift Card',
+    '8W': '$25 Grocery<br>Gift Card',
+    '8X': '$25 Gift Card Mall',
+    '8Y': '$1 Million Vacation Home',
+    '8Z': '$1 Million Cash',
+    '9A': '$10,000 4-Wheeler',
+    '9B': '$10,000 Family Vacation',
+    '9C': '$25 Cash',
+    '9D': 'Fandango Gift Card',
+    '9E': '$15 Gift Card',
+    '9F': '$10 Grocery<br>Gift Card',
+    '9G': '$10 Cash',
+    '9H': '$5 Grocery<br>Gift Card',
+}
+
+
 // ---- loadAudio -----------------------------------------
 function loadAudio()
 {
@@ -96,18 +131,25 @@ function initPage()
             url: url,
             data: data,
             contentType: "application/x-www-form-urlencoded",
+            dataType: "json",
             success: function(responseData, textStatus, jqXHR) {
-                $("#results-text").text(responseData);
+                $("#results-text").text(JSON.stringify(responseData, null, 2));
                 $("#results-div").css('display', 'block');
                 $("#add-form input:text").val('');
-                
-                var resp = JSON.parse(responseData);
-                
+
+                var resp = responseData;
+
                 if (resp.count > 1) {
                     playAudio('dingx');
-                    
                 } else {
                     playAudio('ding1');
+
+                    // Check if a prize is won after adding a new piece
+                    checkForPrize(resp.code, function(groupKey, won) {
+                        if (won) {
+                            alert("You won " + gPrizeGroups[groupKey] + "!!!");
+                        }
+                    });
                 }
                 
                 if (gReadCodes) {
@@ -126,6 +168,59 @@ function initPage()
     loadAudio();
     
     showContent('add', true);
+}
+
+// ---- checkForPrize -------------------------------------
+// Check if given code's prize group has been won. Callback is a function
+// called when status is determined whose parameters are the groupKey and
+// won flag (won flag is null if an error occurred, otherise boolean)
+function checkForPrize(code, callback)
+{
+    var groupKey = code.substring(0,2);
+    var prize = gPrizeGroups[groupKey];
+
+    if (prize) {
+        console.log("Checking for prize: " + groupKey);
+
+        var data = "code=" + groupKey + ".";
+
+        $.ajax({
+            type: "post",
+            url: '/cgroup',
+            data: data,
+            contentType: "application/x-www-form-urlencoded",
+            dataType: "json",
+            success: function(responseData, textStatus, jqXHR) {
+                var resp = responseData;
+                var won = true;
+
+                for(var i = 0; i < resp.length; i++) {
+                    if (resp[i].count <= 0) {
+                        won = false;
+                        break;
+                    }
+                }
+
+                console.log('checkForPrize(' + groupKey + ') Result: ' + won);
+
+                if (callback) {
+                    callback(groupKey, won);
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log('checkForPrize(' + groupKey + ') Error: ' + errorThrown);
+                if (callback) {
+                    callback(groupKey, null);
+                }
+            },
+        });
+    } else {
+        console.log('checkForPrize(' + code + ') Error: No prize group associated with this code.');
+
+        if (callback) {
+            callback(groupKey, null);
+        }
+    }
 }
 
 // ---- showContent ---------------------------------------
@@ -179,14 +274,49 @@ function onStatus()
             $("#status-items tr").remove();
             
             var str = "";
-            
+            var i, blk, key, prevGroup;
+            var groups = {};
+            var prizeClass = "prize-even";
+
+            // Count number of codes in each group (codes are in a group if the first two characters match)
             for (i = 0; i < found.length; i++) {
-                var blk = found[i];
-                
+                blk = found[i];
+                key = blk.code.substring(0,2);
+                if (groups[key] === undefined) {
+                    groups[key] = 0;
+                }
+                groups[key]++;
+            }
+
+            for (i = 0; i < found.length; i++) {
+                blk = found[i];
+                key = blk.code.substring(0,2);
+
+                // Toggle prize color before adding the new prize row when the group changes, doing this first
+                // because uncollected pieces use the class of their associated prize to make reading easier.
+                if (key != prevGroup) {
+                    prizeClass = (prizeClass == 'prize-even') ? 'prize-odd' : 'prize-even';
+                }
+
                 if(blk.count > 0) {
-                    str = str + '<tr style="background-color:lightgreen"><td>' + blk.code + '</td><td>' + blk.count + '</td></tr>';
+                    str += '<tr><td class="collected">' + blk.code + '</td><td class="collected">' + blk.count + '</td>';
                 } else {
-                    str = str + '<tr><td>' + blk.code + '</td><td>' + blk.count + '</td></tr>';
+                    str += '<tr><td class="' + prizeClass + '">' + blk.code + '</td><td class="' + prizeClass + '">' + blk.count + '</td>';
+                }
+
+                if (key != prevGroup) {
+                    prevGroup = key;
+                    str += '<td rowspan="' + groups[key] + '" class="' + prizeClass + '">';
+
+                    if (gPrizeGroups[key]) {
+                        str += gPrizeGroups[key];
+                    } else {
+                        str += "Unknown Prize";
+                    }
+
+                    str += '</td></tr>';
+                } else {
+                    str += '</tr>';
                 }
             }
             
