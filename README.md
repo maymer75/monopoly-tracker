@@ -10,7 +10,7 @@ This project is designed to run locally on a system that has both NodeJS and Mon
 1. Clone the repository (or extract the zip archive).
 2. Start the mongod service running in a command window.
 3. Open a second command window, cd to the project folder.
-4. Run `mongoimport –db=monopoly –collection=codes –file=monop-codes.json` to import the game codes with empty counts.
+4. Run `mongoimport –-db=monopoly -–collection=codes –-file=monop-codes.json` to import the game codes with empty counts.
 5. Run `npm install` to install dependencies.
 6. Run `node monopsv.js` to run the server script.
 7. In a browser navigate to http://localhost:8081/monop.html

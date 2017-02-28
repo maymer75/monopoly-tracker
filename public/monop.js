@@ -8,7 +8,7 @@ var gCurPage = 'create';
 var gAudio = {};        // Audio objects, key is the associated letter from a code, or base filename for non-code audio
 var gPlaylist = [];     // Queue of audio files to play in sequence
 var gAudioFiles = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
-                    's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '$', 'question', 'ding1', 'dingx', 'winner',
+                    's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '$', 'question', 'ding1', 'dingx', 'winner', 'wrong',
                     '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' ];
 
 var gReadCodes = true;
@@ -46,6 +46,8 @@ var gPrizeGroups = {
     '9G': '$10 Cash',
     '9H': '$5 Grocery<br>Gift Card',
 }
+
+var gInstructionText = "To enter a code from a game piece, type the first two characters followed by the last character."
 
 
 // ---- loadAudio -----------------------------------------
@@ -108,11 +110,11 @@ function initPage()
             data: data,
             contentType: "application/x-www-form-urlencoded",
             success: function(responseData, textStatus, jqXHR) {
-                $("#results-text").text(responseData);
+                $("#results-text").html(responseData);
                 $("#results-div").css('display', 'block');
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                $("#results-text").text(textStatus);
+                $("#results-text").html(textStatus);
                 $("#results-div").css('display', 'block');
             }
         });
@@ -133,7 +135,7 @@ function initPage()
             contentType: "application/x-www-form-urlencoded",
             dataType: "json",
             success: function(responseData, textStatus, jqXHR) {
-                $("#results-text").text(JSON.stringify(responseData, null, 2));
+                $("#results-text").html(JSON.stringify(responseData, null, 2));
                 $("#results-div").css('display', 'block');
                 $("#add-form input:text").val('');
 
@@ -141,25 +143,30 @@ function initPage()
 
                 if (resp.count > 1) {
                     playAudio('dingx');
+                    readCode(resp.code);
                 } else {
-                    playAudio('ding1');
-
-                    // Check if a prize is won after adding a new piece
-                    checkForPrize(resp.code, function(groupKey, won) {
-                        if (won) {
-                            alert("You won " + gPrizeGroups[groupKey] + "!!!");
-                        }
-                    });
-                }
-                
-                if (gReadCodes) {
-                    playAudio(resp.code[0].toLowerCase());
-                    playAudio(resp.code[1].toLowerCase());
-                    playAudio(resp.code[2].toLowerCase());
+                    if (!resp.code) {
+                        // The code entered was not valid
+                        playAudio('wrong');
+                        $('#results-text').html(resp.message + '<br><br>' + gInstructionText);
+                        $('#results-div').css('display', 'block');
+                    } else {
+                        // Check if a prize is won after adding a new piece
+                        checkForPrize(resp.code, function(groupKey, won) {
+                            if (won) {
+                                playAudio('winner');
+                                $('#results-text').html("You won " + gPrizeGroups[groupKey] + "!!!");
+                            } else {
+                                playAudio('ding1');
+                                readCode(resp.code);
+                            }
+                        });
+                    }
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                $("#results-text").text(textStatus);
+                playAudio('wrong');     // just so user knows there's an error
+                $("#results-text").html(textStatus);
                 $("#results-div").css('display', 'block');
             },
         });
@@ -265,7 +272,7 @@ function onStatus()
         url: "/cstatus",
         success: function(responseData, textStatus, jqXHR) {
             // For debugging enable this to show JSON returned by the query
-            //$("#results-text").text(responseData);
+            //$("#results-text").html(responseData);
             //$("#results-div").css('display', 'block');
             
             var found = JSON.parse(responseData);
@@ -323,7 +330,7 @@ function onStatus()
             $("#status-items").append(str);
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            $("#results-text").text(textStatus);
+            $("#results-text").html(textStatus);
             $("#results-div").css('display', 'block');
         }
     });
@@ -336,4 +343,15 @@ function applyRead()
     var cbox = document.getElementsByName('read')[0];
     gReadCodes = cbox.checked;
     //console.log("applyRead: checked=" + cbox.checked + ", flag=" + gReadCodes);
+}
+
+// ---- readCode ------------------------------------------
+// Queues the audio to read back the given code
+function readCode(code, bForce)
+{
+    if(gReadCodes || bForce) {
+        playAudio(resp.code[0].toLowerCase());
+        playAudio(resp.code[1].toLowerCase());
+        playAudio(resp.code[2].toLowerCase());
+    }
 }

@@ -62,7 +62,7 @@ app.post('/cadd', function(req, res) {
 		db.collection('codes').find( { 'code':finalCode } ).toArray().then(function(found) {
             if (found.length === 0) {
                 console.log("Add for INVALID code: " + finalCode);
-                res.end(JSON.stringify( { result:0, message:"The code you entered is invalid. Enter only the first and last letter of the code on a game piece." } ));
+                res.end(JSON.stringify( { result:0, message:"The code you entered is invalid." } ));
                 db.close();
             } else {
                 found = found[0];
