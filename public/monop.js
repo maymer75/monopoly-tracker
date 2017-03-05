@@ -350,8 +350,8 @@ function applyRead()
 function readCode(code, bForce)
 {
     if(gReadCodes || bForce) {
-        playAudio(resp.code[0].toLowerCase());
-        playAudio(resp.code[1].toLowerCase());
-        playAudio(resp.code[2].toLowerCase());
+        playAudio(code[0].toLowerCase());
+        playAudio(code[1].toLowerCase());
+        playAudio(code[2].toLowerCase());
     }
 }
