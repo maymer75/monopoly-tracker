@@ -6,7 +6,7 @@
         <script src="monop.js"></script>
         <link rel="stylesheet" type="text/css" href="monop.css"/>
     </head>
-    
+
     <body onload="initPage();">
         <div class="parent-container">
             <div id="header-div">
@@ -15,13 +15,8 @@
                     <li id="add" class="tab-unselected" onclick="onAdd();">Add</li>
                     <li id="status" class="tab-unselected" onclick="onStatus();">Status</li>
                 </ul>
-                
-                <div class="options-div">
-                    <input type="checkbox" name="read" checked onchange="applyRead();"/>
-                    <label for="read" class="checkboxtext">Read Codes</label>
-                </div>
             </div>
-            
+
             <div id="create-div">
                 <h1 id="title">Create Monopoly Codes</h1>
                 <form method="post" class="create-form" id="create-form" action="/ccreate">
@@ -55,7 +50,7 @@
                 </table>
                 <br>
             </div>
-            
+
             <div id="results-div">
                 <h1 id="title">Results</h1>
                 <p id="results-text">This will show the results of add or create commands.</p>

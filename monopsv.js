@@ -83,7 +83,7 @@ app.get('/cstatus', function(req, res) {
 	MongoClient.connect(dburl, function(err, db) {
 		assert.equal(null, err);
 
-		// Just return the entire database :)
+		// Just return the entire database
 		db.collection('codes').find( {} ).toArray().then(function(found) {
             console.log("Got everything.");
             db.close();
@@ -106,7 +106,8 @@ app.post('/cgroup', function(req, res) {
 		var finalCode = req.body.code.toUpperCase();
 
 		// Search for existing code
-		db.collection('codes').find( { 'code':{'$regex':finalCode} } ).toArray().then(function(found) {
+		//db.collection('codes').find( { 'code':{'$regex':finalCode} } ).toArray().then(function(found) {
+        db.collection('codes').find( { 'group': finalCode } ).toArray().then(function(found) {
             db.close();
             res.end(JSON.stringify(found));
         });
@@ -116,9 +117,9 @@ app.post('/cgroup', function(req, res) {
 // Start listening on port 8081
 var server = app.listen(8081, function() {
     console.log(server.address());
-    
+
     var host = server.address().address;
     var port = server.address().port;
-    
+
     console.log("Monopoly Server listening at http://%s:%s", host, port);
 });
