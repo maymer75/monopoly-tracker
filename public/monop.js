@@ -11,37 +11,23 @@ var gAudioFiles = [ 'ding1', 'dingx', 'winner', 'wrong' ];
 
 // Use all uppercase letters in groups/codes here to match how the database stores them.
 var gPrizeGroups = [
-    { min: 301, max: 304, group: "A", title: "$5,000 Cash" },
-    { min: 305, max: 308, group: "B", title: "$5,000 Groceries" },
-    { min: 309, max: 312, group: "C", title: "$2,000 Plated.com Gift Card" },
-    { min: 313, max: 316, group: "D", title: "$2,000 Fandango Movies for a Year" },
-    { min: 317, max: 320, group: "E", title: "$1,000 Cash" },
-    { min: 321, max: 324, group: "F", title: "$1,000 Grocery Gift Card" },
-    { min: 325, max: 328, group: "G", title: "$500 Portable Grill &amp; Groceries" },
-    { min: 329, max: 332, group: "H", title: "$500 Grocery Gift Card" },
-    { min: 333, max: 338, group: "I", title: "$1 MILLION Cash" },
-    { min: 339, max: 344, group: "J", title: "$1 MILLION Vacation Home" },
-    { min: 345, max: 348, group: "K", title: "$5 Cash" },
-    { min: 349, max: 352, group: "L", title: "$5 Grocery Gift Card" },
-    { min: 353, max: 356, group: "M", title: "$10 Cash" },
-    { min: 357, max: 360, group: "N", title: "$10 Grocery Gift Card" },
-    { min: 361, max: 364, group: "O", title: "$20 Cash" },
-    { min: 365, max: 368, group: "P", title: "$25 Cash" },
-    { min: 369, max: 372, group: "Q", title: "$25 Grocery Gift Card" },
-    { min: 373, max: 376, group: "R", title: "$50 Grocery Gift Card" },
-    { min: 377, max: 380, group: "S", title: "$100 Cash" },
-    { min: 381, max: 384, group: "T", title: "$100 Grocery Gift Card" },
-    { min: 385, max: 388, group: "U", title: "$200 Family Picnic" },
-    { min: 389, max: 392, group: "V", title: "$300 Wireless Headphones" },
-    { min: 393, max: 397, group: "W", title: "$100,000 Cash or Boat" },
-    { min: 398, max: 402, group: "X", title: "$30,000 Pair of Jet Skis" },
-    { min: 403, max: 407, group: "Y", title: "$25,000 Home Theater" },
-    { min: 408, max: 412, group: "Z", title: "$20,000 College Tuition" },
-    { min: 413, max: 417, group: "$", title: "$10,000 Cash" },
-    { min: 418, max: 422, group: "#", title: "$7,500 Family Vacation" },
+    { min: 601, max: 607, group: "A", title: "$1,000,000 Cash" },
+    { min: 608, max: 614, group: "B", title: "$250,000 Vacation Home" },
+    { min: 615, max: 619, group: "C", title: "$10,000 Cash" },
+    { min: 620, max: 623, group: "D", title: "$5 Cash" },
+    { min: 624, max: 627, group: "E", title: "$20 Grocery Gift Card" },
+    { min: 628, max: 633, group: "F", title: "$25,000 Home Theater" },
+    { min: 634, max: 637, group: "G", title: "$50 Grocery Gift Card" },
+    { min: 638, max: 641, group: "H", title: "$100 Grocery Gift Card" },
+    { min: 642, max: 647, group: "J", title: "$40,000 Vehicle of Choice" },
+    { min: 648, max: 651, group: "K", title: "$250 Grocery Gift Card" },
+    { min: 652, max: 655, group: "L", title: "$500 Portable Grill &amp; Groceries" },
+    { min: 656, max: 661, group: "M", title: "$100,000 Cash or Boat" },
+    { min: 662, max: 665, group: "N", title: "$1,000 Cash" },
+    { min: 667, max: 670, group: "P", title: "$5,000 Groceries" },
 ];
 
-var gInstructionText = "To enter a code from a game piece, type only the first three numbers from it."
+var gInstructionText = "To enter a code from a game piece, type the three digit number from it."
 
 function prizeGroupFromCode(code) {
     for(var i = 0; i < gPrizeGroups.length; i++) {

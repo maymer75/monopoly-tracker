@@ -1,6 +1,6 @@
 {
   "name": "monopoly-tracker",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "repository": "https://github.com/maymer75/monopoly-tracker.git",
   "description": "A simple web app for keeping track of game pieces collected in the Vons/Safeway monopoly game.",
   "main": "monopsv.js",
