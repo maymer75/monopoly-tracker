@@ -6,7 +6,7 @@
   "main": "monopsv.js",
   "dependencies": {
     "body-parser": "^1.18.3",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "mongodb": "^2.2.36"
   },
   "devDependencies": {},
