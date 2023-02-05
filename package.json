@@ -5,7 +5,7 @@
   "description": "A simple web app for keeping track of game pieces collected in the Vons/Safeway monopoly game.",
   "main": "monopsv.js",
   "dependencies": {
-    "body-parser": "^1.18.3",
+    "body-parser": "^1.20.1",
     "express": "^4.17.3",
     "mongodb": "^2.2.36"
   },
